@@ -1,0 +1,3 @@
+pycryptodomex==3.20.0
+pywin32==306
+requests==2.25.1
