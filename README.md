@@ -32,6 +32,6 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 
 ## Dummy Log Images<br>
 
-![Logs](https://imgur.com/a/python-github-w09uCMg)
+![Logs](https://imgur.com/a/python-github-w09uCMg.png)
 
 **Note:** None Of The Data Shown In The Log Is Correct And Has Been Ran On A RDP Server
