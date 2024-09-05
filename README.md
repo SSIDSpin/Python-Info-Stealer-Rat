@@ -11,6 +11,7 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 
 ## Coming Soon
 - Automatically compile the py into a exe
+- Discord Account Stealer (About To Push This)
 
 ## How To Run
 
