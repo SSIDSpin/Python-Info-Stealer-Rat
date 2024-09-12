@@ -12,12 +12,15 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 - OS Data
 - Crypto Wallets
 - Minecraft SSID
-- Chrome Saved Passwords
-- **Extras:** FTP Connection
+- Chrome Saved Passwords <br>
+**Extras:** 
+- FTP Connection
+- Desktop Screenshot
+
 
 ## Coming Soon
-- Automatically compile the py into a exe
-- Discord Account Stealer (About To Push This)
+- Discord Account Grabber
+- Roblox Account Grabber
 
 ## How To Run
 
