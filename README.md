@@ -13,7 +13,7 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 - Crypto Wallets
 - Minecraft SSID
 - Chrome Saved Passwords
--**Extras:** FTP Connection
+- **Extras:** FTP Connection
 
 ## Coming Soon
 - Automatically compile the py into a exe
