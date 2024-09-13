@@ -40,6 +40,6 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 
 ## Dummy Log Images<br>
 
-![Logs](https://i.imgur.com/8iB0Nfh.png)
+![Logs](https://i.imgur.com/STJnGu1.png)
 
 **Note:** None Of The Data Shown In The Log Is Correct And Has Been Ran On A RDP Server
