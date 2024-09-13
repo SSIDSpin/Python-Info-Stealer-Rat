@@ -2,3 +2,5 @@ pycryptodomex==3.20.0
 pywin32==306
 requests==2.25.1
 pyftpdlib==1.5.10
+pillow==10.4.0
+browser-cookie3==0.19.1
