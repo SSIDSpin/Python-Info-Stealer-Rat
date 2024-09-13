@@ -8,10 +8,19 @@
 ## What Does It Do?
 This is a malicious tool, aimed to look like a HWID Spoofer. The program finds the saved chrome details of the user and decrypts them. It also find out if; Exodus, Electrum, Metamask, Coinbase is installed on the system. It also gets the Minecraft SSID and player UUID. Once done so they are submitted to the Webhook selected by the owner. Furthermore it also opens up a FTP protocol on the users computer so you can directly access files you want to view.
 
+## What It Obtains
+- OS Data
+- Crypto Wallets
+- Minecraft SSID
+- Chrome Saved Passwords <br>
+**Extras:** 
+- FTP Connection
+- Desktop Screenshot
+
 
 ## Coming Soon
-- Automatically compile the py into a exe
-- Discord Account Stealer (About To Push This)
+- Discord Account Grabber
+- Roblox Account Grabber
 
 ## How To Run
 
