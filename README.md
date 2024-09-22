@@ -41,9 +41,9 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 2. **Open The Dist Folder**
     - Thats where your exe will be
 3. **Changing Name**
-    -To change the name of the exe, open the build_exe.py and change line 10.
+    - To change the name of the exe, open the build_exe.py and change line 10.
 4. **Changing Icon**
-    -To change the icon of the exe, just replace the file named Icon.ico with what you desire. (Make sure its named Icon.ico)
+    - To change the icon of the exe, just replace the file named Icon.ico with what you desire. (Make sure its named Icon.ico)
 
 ## Dummy Log Images<br>
 
