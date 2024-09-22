@@ -37,7 +37,9 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 ## How To Compile
 
 1. **Run The build_exe.py** 
-    - And wait for it to fulyl complete.
+    - Open CMD in the folder where the project is.
+    - Run py build_exe.py
+    - And wait for it to fully complete.
 2. **Open The Dist Folder**
     - Thats where your exe will be
 3. **Changing Name**
