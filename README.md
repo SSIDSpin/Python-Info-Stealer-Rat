@@ -14,8 +14,7 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 - Minecraft SSID
 - Discord Account Grabber
 - Roblox Account Grabber
-- Chrome Saved Passwords <br>
-**Extras:** 
+- Chrome Saved Passwords <br>**Extras:** 
 - FTP Connection
 - Desktop Screenshot
 
