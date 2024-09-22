@@ -23,15 +23,15 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 
 1. **Download Python**: [Download Python](https://www.python.org/downloads/release/python-31012/)
 2. **Install Requirements**:
-    - Open Command Prompt in the project folder and run `pip install -r requirements.txt`.
+    - Open command prompt in the project folder and run `pip install -r requirements.txt`.
 3. **Create Your Webhook**:
     - Generate your Webhook URL/Token.
 4. **Set Up Webhook**:
-    - Place The Webhook Inside "" On Line 17
+    - Place the webhook inside "" On Line 17
 5. **Test It**:
-    - Run The File And Watch What Happends.
+    - Run the file and watch what happends.
 
-**Note:** I Would recommend changing the logo to something that suits what you plan to use this for, 
+**Note:** I would recommend changing the logo to something that suits what you plan to use this for, 
           to do the big ascii text similar to what i did visit [patorjk.com](https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Spin)
 
 ## How To Compile
