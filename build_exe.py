@@ -10,3 +10,4 @@ PyInstaller.__main__.run([
     'Python-Info-Stealer-Rat',
     '--clean'
 ])
+

